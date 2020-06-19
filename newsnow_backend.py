@@ -119,7 +119,6 @@ class WebScraper:
         articles = [items.find_all('a') for items in bowl]
         articles2 = [a for i in articles for a in i]
         for articles in articles2:
-            print(articles['href'])
             if 'href' not in str(articles):
                 continue
             if len(articles['href']) < 5:
@@ -162,13 +161,23 @@ class WebScraper:
         blob1 = TextBlob(" ".join(longest)).noun_phrases
         blob2 = TextBlob(" ".join(shortest)).noun_phrases
         for values in blob1:
-            comparison.add(values)
-        for word in blob2:
-            if word in comparison:
-                count += 1
-            else:
-                continue
-        if 0 < count < len(blob2):
+            values2 = values.strip("'").split(" ")
+            for i in values2:
+                if len(i) > 2:
+                    comparison.add(i)
+                else:
+                    continue
+        for values in blob2:
+            values2 = values.strip("'").split(" ")
+            for i in values2:
+                if len(i) > 2:
+                    if i in comparison:
+                        count += 1
+                    else:
+                        continue
+                else:
+                    continue
+        if 1 < count < len(blob2):
             return True
         else:
             return False
