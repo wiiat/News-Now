@@ -145,7 +145,7 @@ class WebScraper:
                 if new_articles in duplicates:
                     continue
                 else:
-                    title[tuple(articles.text.lower().strip().split(" "))] = new_articles
+                    title[tuple(articles.text.lower().strip().strip("'s").split(" "))] = new_articles
                     duplicates.append(new_articles)
         return title
 
@@ -177,7 +177,7 @@ class WebScraper:
                         continue
                 else:
                     continue
-        if 1 < count < len(blob2):
+        if 0 < count < len(blob2):
             return True
         else:
             return False
@@ -195,7 +195,8 @@ class WebScraper:
                     continue
 
 
-title = WebScraper()
-a = title.title_splitter(title.bbc[0], title.bbc[1], title.bbc[2], title.bbc[3])
-b = title.title_splitter(title.abc[0], title.abc[1], title.abc[2], title.abc[3])
-title.ltitle_comparer(a, b)
+if __name__ == "__main__":
+    title = WebScraper()
+    a = title.title_splitter(title.bbc[0], title.bbc[1], title.bbc[2], title.bbc[3])
+    b = title.title_splitter(title.abc[0], title.abc[1], title.abc[2], title.abc[3])
+    title.ltitle_comparer(a, b)
