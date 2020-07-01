@@ -1,13 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
+from textblob import TextBlob
 
 
 class WebScraper:
     blm_words = ('blm', 'black', 'african american', 'black lives matter', 'slavery', 'racism', 'protests',
                  'protesters', 'racist')
     covid_words = ('coronavirus', 'covid-19', 'pandemic', 'covid')
+    stocks = ['stocks', 'stock market']
     trump_words = ('trump')
+
     foxnews = ('foxnews.csv', 'info', 'article-body', 'https://www.foxnews.com/')
     nypost = ('nypost.csv', 'headline-container', 'entry-content entry-content-read-more', 'https://nypost.com/')
     dailymail = ('dailymail.csv', 'linkro-darkred', 'articleBody', 'https://www.dailymail.co.uk/')
@@ -142,27 +145,39 @@ class WebScraper:
                 if new_articles in duplicates:
                     continue
                 else:
-                    title[tuple(articles.text.lower().strip().split(" "))] = new_articles
+                    title[tuple(articles.text.lower().strip().strip("'s").split(" "))] = new_articles
                     duplicates.append(new_articles)
         return title
 
     def stitle_comparer(self, words1, words2):
         comparison = set({})
         count = 0
-        for values in words1:
-            comparison.add(values)
-        for values in words2:
-            comparison.add(values)
         if max(len(words2), len(words1)) == words1:
             longest = words1
+            shortest = words2
         else:
             longest = words2
-        for word in longest:
-            if word in comparison:
-                count += 1
-            else:
-                continue
-        if 3 < count < max(len(words2), len(words1)):
+            shortest = words1
+        blob1 = TextBlob(" ".join(longest)).noun_phrases
+        blob2 = TextBlob(" ".join(shortest)).noun_phrases
+        for values in blob1:
+            values2 = values.strip("'").split(" ")
+            for i in values2:
+                if len(i) > 2:
+                    comparison.add(i)
+                else:
+                    continue
+        for values in blob2:
+            values2 = values.strip("'").split(" ")
+            for i in values2:
+                if len(i) > 2:
+                    if i in comparison:
+                        count += 1
+                    else:
+                        continue
+                else:
+                    continue
+        if 0 < count < len(blob2):
             return True
         else:
             return False
@@ -178,3 +193,10 @@ class WebScraper:
                     csv_file.writerow([' '.join(k1), ' '.join(k2), x[k1], y[k2]])
                 else:
                     continue
+
+
+if __name__ == "__main__":
+    title = WebScraper()
+    a = title.title_splitter(title.bbc[0], title.bbc[1], title.bbc[2], title.bbc[3])
+    b = title.title_splitter(title.abc[0], title.abc[1], title.abc[2], title.abc[3])
+    title.ltitle_comparer(a, b)
