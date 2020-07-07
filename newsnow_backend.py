@@ -40,8 +40,8 @@ class WebScraper:
             bowl = soup.find_all(class_=class1)
         articles = [items.find_all('a') for items in bowl]
         articles2 = [a for i in articles for a in i]
-        csv_file = csv.writer(open(file, 'w'))
-        csv_file.writerow(['Article', 'Link'])
+        my_file = open(file, 'w')
+        csv_file = csv.writer(my_file)
         article_links = set({})
         for articles in articles2:
             if 'href' not in str(articles):
@@ -58,7 +58,19 @@ class WebScraper:
                 new_articles = articles['href']
             else:
                 continue
-            article_site = requests.get(new_articles).text
+            while True:
+                try:
+                    s = 0
+                    article_site = requests.get(new_articles).text
+                    break
+                except requests.exceptions.SSLError:
+                    s = 1
+                    article_site = None
+                    break
+            if s == 1:
+                continue
+            else:
+                pass
             article_soup = BeautifulSoup(article_site, 'lxml')
             if file in special2:
                 article_body = article_soup.find(id=class2)
@@ -104,6 +116,54 @@ class WebScraper:
                                         csv_file.writerow([articles.text.strip(), new_articles])
                                 else:
                                     continue
+        my_file.close()
+
+    def keyword_lite(self, word_list, file, class1, link):
+        special = ('dailymail.csv', 'bbc.csv', 'nytimes.csv', 'newsmax.csv', 'wtimes.csv', 'abc.csv')
+        special2 = ('newsmax.csv', 'wtimes.csv', 'abc.csv')
+        local_link = requests.get(link).text
+        soup = BeautifulSoup(local_link, 'lxml')
+        if file in special2:
+            bowl = soup.find_all(id=class1)
+        else:
+            bowl = soup.find_all(class_=class1)
+        articles = [items.find_all('a') for items in bowl]
+        articles2 = [a for i in articles for a in i]
+        my_file = open(file, 'w')
+        csv_file = csv.writer(my_file)
+        article_links = set({})
+        for articles in articles2:
+            if 'href' not in str(articles):
+                continue
+            if len(articles['href']) < 5:
+                continue
+            if '/' not in articles['href']:
+                continue
+            elif file in special and '.co' not in articles['href']:
+                new_articles = link + articles['href']
+            elif '//' in articles['href'][:2]:
+                new_articles = 'https://' + articles['href'][2:]
+            elif 'http' in articles['href'][:6]:
+                if 'https' in articles['href'][:5]:
+                    new_articles = articles['href']
+                else:
+                    new_articles = 'https' + articles['href'][4:]
+            else:
+                continue
+            if any(words in articles.text.lower() for words in word_list):
+                if len(articles.text) < 3:
+                    continue
+                elif new_articles in article_links or articles.text in article_links:
+                    continue
+                elif 'getty images' in articles.text.lower():
+                    continue
+                else:
+                    article_links.add(new_articles)
+                    article_links.add(articles.text)
+                    csv_file.writerow([articles.text.strip(), new_articles])
+            else:
+                continue
+        my_file.close()
 
     def title_splitter(self, file, class1, class2, link):
         special = ('dailymail.csv', 'bbc.csv', 'nytimes.csv', 'newsmax.csv', 'wtimes.csv', 'abc.csv')
@@ -197,6 +257,7 @@ class WebScraper:
 
 if __name__ == "__main__":
     title = WebScraper()
-    a = title.title_splitter(title.bbc[0], title.bbc[1], title.bbc[2], title.bbc[3])
+    '''a = title.title_splitter(title.bbc[0], title.bbc[1], title.bbc[2], title.bbc[3])
     b = title.title_splitter(title.abc[0], title.abc[1], title.abc[2], title.abc[3])
-    title.ltitle_comparer(a, b)
+    title.ltitle_comparer(a, b)'''
+    title.keyword_lite(title.covid_words, title.foxnews[0], title.foxnews[1], title.foxnews[3])
