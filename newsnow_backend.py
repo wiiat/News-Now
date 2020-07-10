@@ -1,7 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
+<<<<<<< Updated upstream
 from textblob import TextBlob
+=======
+>>>>>>> Stashed changes
 
 
 class WebScraper:
@@ -11,6 +14,7 @@ class WebScraper:
     stocks = ['stocks', 'stock market']
     trump_words = ('trump')
 
+<<<<<<< Updated upstream
     foxnews = ('foxnews.csv', 'info', 'article-body', 'https://www.foxnews.com/')
     nypost = ('nypost.csv', 'headline-container', 'entry-content entry-content-read-more', 'https://nypost.com/')
     dailymail = ('dailymail.csv', 'linkro-darkred', 'articleBody', 'https://www.dailymail.co.uk/')
@@ -120,6 +124,27 @@ class WebScraper:
 
     def keyword_lite(self, word_list, file, class1, link):
         special = ('dailymail.csv', 'bbc.csv', 'nytimes.csv', 'newsmax.csv', 'wtimes.csv', 'abc.csv')
+=======
+    foxnews = ('foxnews.csv', 'info', 'https://www.foxnews.com/')
+    nypost = ('nypost.csv', 'headline-container', 'https://nypost.com/')
+    dailymail = ('dailymail.csv', 'linkro-darkred', 'https://www.dailymail.co.uk/')
+    reason = ('reason.csv', 'main', 'https://reason.com/')
+    bbc = ('bbc.csv', 'media__content', 'https://www.bbc.com/')
+    nytimes = ('nytimes.csv', 'css-15zaaaz eq74mwp0', 'https://www.nytimes.com/')
+    newsmax = ('newsmax.csv', 'nmLeftColumn', 'https://www.newsmax.com/')
+    wtimes = ('wtimes.csv', 'contained', 'https://www.washingtontimes.com/')
+    npr = ('npr.csv', 'story-text', 'https://www.npr.org/')
+    usatoday = ('usatoday.csv', 'gnt_cw', 'https://www.usatoday.com/')
+    abc = ('abc.csv', 'main-container', 'https://abcnews.go.com/')
+    nbc = ('nbc.csv', 'layout-container zone-a-margin lead-type--threeUp', 'https://www.nbcnews.com/')
+    mjones = ('mjones.csv', 'grid', 'https://www.motherjones.com//')
+    msnbc = ('msnbc.csv', 'layout-container zone-a-margin lead-type--threeUp', 'https://www.msnbc.com/')
+    vox = ('vox.csv', 'c-entry-box--compact__body', 'https://www.vox.com/')
+
+    def keyword_lite(self, word_list, file, class1, link):
+        special = ('dailymail.csv', 'bbc.csv', 'nytimes.csv', 'newsmax.csv',
+                   'wtimes.csv', 'abc.csv')
+>>>>>>> Stashed changes
         special2 = ('newsmax.csv', 'wtimes.csv', 'abc.csv')
         local_link = requests.get(link).text
         soup = BeautifulSoup(local_link, 'lxml')
@@ -165,6 +190,7 @@ class WebScraper:
                 continue
         my_file.close()
 
+<<<<<<< Updated upstream
     def title_splitter(self, file, class1, class2, link):
         special = ('dailymail.csv', 'bbc.csv', 'nytimes.csv', 'newsmax.csv', 'wtimes.csv', 'abc.csv')
         special2 = ('newsmax.csv', 'wtimes.csv', 'abc.csv')
@@ -254,10 +280,16 @@ class WebScraper:
                 else:
                     continue
 
+=======
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     title = WebScraper()
     '''a = title.title_splitter(title.bbc[0], title.bbc[1], title.bbc[2], title.bbc[3])
     b = title.title_splitter(title.abc[0], title.abc[1], title.abc[2], title.abc[3])
     title.ltitle_comparer(a, b)'''
+<<<<<<< Updated upstream
     title.keyword_lite(title.covid_words, title.foxnews[0], title.foxnews[1], title.foxnews[3])
+=======
+    title.keyword_lite(title.covid_words, title.nypost[0], title.nypost[1], title.nypost[2])
+>>>>>>> Stashed changes
