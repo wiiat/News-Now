@@ -19,26 +19,13 @@ ScreenManagement:
     ABC:
     NBC:
     NyTimes:
-<<<<<<< Updated upstream
-    MotherJones:
-    MSNBC:
-    Vox:
-=======
     Vox
     MSNBC:
     MotherJones:
->>>>>>> Stashed changes
 
 
 <TopicSelectionPage>:
     name: "topic"
-<<<<<<< Updated upstream
-    blm_button: blm
-    covid_button: covid
-    topic: hot_topic
-
-    Widget:
-=======
     base_widget: base
 
     Widget:
@@ -47,7 +34,6 @@ ScreenManagement:
         size: (800, 600)
         pos: (0, 0)
 
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -72,25 +58,6 @@ ScreenManagement:
             font_size: 53
             pos: (root.center_x - (self.width / 2), 375)
             size: self.texture_size
-<<<<<<< Updated upstream
-        Button:
-            id: blm
-            background_color: (.54, .84, .89, 1)
-            text: "[b]Black Lives Matter[/b]"
-            pos: (root.center_x - (self.width / 2), 273)
-            size: self.texture_size
-            on_press:
-                root.manager.current = "site"
-        Button:
-            id: covid
-            background_color: (.54, .84, .89, 1)
-            text: "[b]Coronavirus[/b]"
-            pos: (root.center_x - (self.width / 2), 188)
-            size: self.texture_size
-            on_press:
-                root.manager.current = "site"
-=======
->>>>>>> Stashed changes
 
 
 <NewsSelectionPage>:
@@ -419,10 +386,6 @@ ScreenManagement:
     news_articles: articles
     back_button: back
     menu_button: menu
-<<<<<<< Updated upstream
-
-    Widget:
-=======
     refresh_button: refresh
     next_button: next
     
@@ -453,7 +416,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 265)
                 size: (120, 190)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -487,14 +449,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -535,23 +489,11 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-                Rectangle:
-                    size: (self.width + 8, self.height + 8)
-                    pos: (self.x - 4, self.y - 4)
-    ScrollView:
-        do_scroll_x: False
-        do_scroll_y: True
-        pos: (50, -140)
-        smooth_scroll_end: 5
-=======
                     rgba: (1, 1, 1, 1)
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
@@ -577,27 +519,10 @@ ScreenManagement:
         bar_color: (.96, .60, .61, 1)
         bar_inactive_color: (.96, .60, .61, .4)
         scroll_type: ['bars', 'content']
->>>>>>> Stashed changes
 
         GridLayout:
             id: articles
             cols: 1
-<<<<<<< Updated upstream
-            col_default_width: 700
-            padding: [0, 100, 0, 0]
-            size_hint_y: None
-            height: self.minimum_height
-            spacing: 100
-
-
-
-<NyPost>:
-    name: 'nypost'
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
             col_default_width: 580
             padding: [190, 140, 0, 0]
             size_hint_y: None
@@ -611,7 +536,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -645,14 +569,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -709,17 +625,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -727,12 +638,6 @@ ScreenManagement:
 
 <DailyMail>:
     name: 'dailymail'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -767,7 +672,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -779,11 +683,7 @@ ScreenManagement:
             outline_color: (.96, .60, .61, 1)
             color: (1, 1, 1, 1)
             markup: True
-<<<<<<< Updated upstream
-            text: "[b]Daily Mail[/b]"
-=======
             text: "[b]Dailymail[/b]"
->>>>>>> Stashed changes
             font_size: 47
             #self.width / 2 is 49
             pos: (root.center_x - (self.width / 2), 480 + (self.height / 2))
@@ -805,14 +705,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -869,17 +761,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -887,12 +774,6 @@ ScreenManagement:
 
 <Newsmax>:
     name: 'newsmax'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -927,7 +808,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -961,60 +841,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-            size: (90, 40)
-            on_press: root.manager.current = "topic"
-
-            canvas.before:
-                Color:
-                    rgba: (.96, .60, .61, 1)
-                Rectangle:
-                    size: (self.width + 8, self.height + 8)
-                    pos: (self.x - 4, self.y - 4)
-
-
-<Reason>:
-    name: 'reason'
-    back_button: back
-    menu_button: menu
-
-    Widget:
-        canvas:
-            Color:
-                rgb: (1, 1, 1)
-            Rectangle:
-                pos: (0, 480)
-                size: (800, 120)
-        Label:
-            outline_width: 5
-            outline_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            markup: True
-            text: "[b]Reason[/b]"
-            font_size: 47
-            #self.width / 2 is 49
-            pos: (root.center_x - (self.width / 2), 480 + (self.height / 2))
-            size: self.texture_size
-        Button:
-            id: back
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Back[/b]"
-            font_size: 26.7
-            pos: (53, 480 + (self.height / 1.35))
-            size: (90, 40)
-            on_press: root.manager.current = "site"
-
-            canvas.before:
-                Color:
-                    rgba: (.96, .60, .61, 1)
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -1061,48 +887,27 @@ ScreenManagement:
             canvas.before:
                 Color:
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
             id: menu
-<<<<<<< Updated upstream
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
 
 
-<<<<<<< Updated upstream
-<WashingtonTimes>:
-    name: 'wtimes'
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
 <Reason>:
     name: 'reason'
     news_articles: articles
@@ -1139,7 +944,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -1151,17 +955,10 @@ ScreenManagement:
             outline_color: (.96, .60, .61, 1)
             color: (1, 1, 1, 1)
             markup: True
-<<<<<<< Updated upstream
-            text: "[b]Washington Times[/b]"
-            font_size: 47
-            #self.width / 2 is 49
-            pos: (root.center_x - (self.width / 2), 465 + (self.height / 2))
-=======
             text: "[b]Reason[/b]"
             font_size: 47
             #self.width / 2 is 49
             pos: (root.center_x - (self.width / 2), 480 + (self.height / 2))
->>>>>>> Stashed changes
             size: self.texture_size
         Button:
             id: back
@@ -1180,31 +977,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-            size: (90, 40)
-            on_press: root.manager.current = "topic"
-
-            canvas.before:
-                Color:
-                    rgba: (.96, .60, .61, 1)
-                Rectangle:
-                    size: (self.width + 8, self.height + 8)
-                    pos: (self.x - 4, self.y - 4)
-
-
-<BBC>:
-    name: 'bbc'
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -1444,7 +1216,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -1478,14 +1249,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -1542,17 +1305,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -1560,12 +1318,6 @@ ScreenManagement:
 
 <NPR>:
     name: 'npr'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -1600,7 +1352,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -1612,11 +1363,7 @@ ScreenManagement:
             outline_color: (.96, .60, .61, 1)
             color: (1, 1, 1, 1)
             markup: True
-<<<<<<< Updated upstream
-            text: "[b]NPR News[/b]"
-=======
             text: "[b]NPR[/b]"
->>>>>>> Stashed changes
             font_size: 47
             #self.width / 2 is 49
             pos: (root.center_x - (self.width / 2), 480 + (self.height / 2))
@@ -1638,14 +1385,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -1702,17 +1441,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -1720,12 +1454,6 @@ ScreenManagement:
 
 <USAToday>:
     name: 'usatoday'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -1760,7 +1488,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -1794,14 +1521,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -1858,17 +1577,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -1876,12 +1590,6 @@ ScreenManagement:
 
 <ABC>:
     name: 'abc'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -1916,7 +1624,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -1934,20 +1641,6 @@ ScreenManagement:
             pos: (root.center_x - (self.width / 2), 480 + (self.height / 2))
             size: self.texture_size
         Button:
-<<<<<<< Updated upstream
-            id: back
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Back[/b]"
-            font_size: 26.7
-            pos: (53, 480 + (self.height / 1.35))
-            size: (90, 40)
-            on_press: root.manager.current = "site"
-
-            canvas.before:
-                Color:
-                    rgba: (.96, .60, .61, 1)
-=======
             id: back
             background_color: (.96, .60, .61, 1)
             color: (1, 1, 1, 1)
@@ -2010,35 +1703,22 @@ ScreenManagement:
             canvas.before:
                 Color:
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
             id: menu
-<<<<<<< Updated upstream
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -2046,12 +1726,6 @@ ScreenManagement:
 
 <NBC>:
     name: 'nbc'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -2086,7 +1760,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -2120,14 +1793,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -2184,17 +1849,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -2202,12 +1862,6 @@ ScreenManagement:
 
 <NyTimes>:
     name: 'nytimes'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -2242,7 +1896,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -2276,14 +1929,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -2340,17 +1985,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -2358,12 +1998,6 @@ ScreenManagement:
 
 <MotherJones>:
     name: 'mjones'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -2397,7 +2031,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 265)
                 size: (120, 190)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -2431,14 +2064,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -2479,17 +2104,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -2497,12 +2117,6 @@ ScreenManagement:
 
 <MSNBC>:
     name: 'msnbc'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -2537,7 +2151,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -2571,14 +2184,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -2635,17 +2240,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-=======
                     rgba: (1, 1, 1, 1)
->>>>>>> Stashed changes
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
@@ -2653,12 +2253,6 @@ ScreenManagement:
 
 <Vox>:
     name: 'vox'
-<<<<<<< Updated upstream
-    back_button: back
-    menu_button: menu
-
-    Widget:
-=======
     news_articles: articles
     back_button: back
     menu_button: menu
@@ -2693,7 +2287,6 @@ ScreenManagement:
             Rectangle:
                 pos: (38, 205)
                 size: (120, 250)
->>>>>>> Stashed changes
         canvas:
             Color:
                 rgb: (1, 1, 1)
@@ -2727,14 +2320,6 @@ ScreenManagement:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
         Button:
-<<<<<<< Updated upstream
-            id: menu
-            background_color: (.96, .60, .61, 1)
-            color: (1, 1, 1, 1)
-            text: "[b]Menu[/b]"
-            font_size: 26.7
-            pos: (747 - self.width, 480 + (self.height / 1.35))
-=======
             id: refresh
             background_color: (1, 1, 1, 1)
             color: (.96, .60, .61, 1)
@@ -2791,20 +2376,12 @@ ScreenManagement:
             text: "[b]Menu[/b]"
             font_size: 26.7
             pos: (53, 340)
->>>>>>> Stashed changes
             size: (90, 40)
             on_press: root.manager.current = "topic"
 
             canvas.before:
                 Color:
-<<<<<<< Updated upstream
-                    rgba: (.96, .60, .61, 1)
-                Rectangle:
-                    size: (self.width + 8, self.height + 8)
-                    pos: (self.x - 4, self.y - 4)
-=======
                     rgba: (1, 1, 1, 1)
                 Rectangle:
                     size: (self.width + 8, self.height + 8)
                     pos: (self.x - 4, self.y - 4)
->>>>>>> Stashed changes
