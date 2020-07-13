@@ -1,1 +1,0 @@
-../Resources/newsnow_backend.py
