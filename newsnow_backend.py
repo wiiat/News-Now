@@ -1,14 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
-import csv
 
 
 class WebScraper:
     blm_words = ('blm', 'black', 'african american', 'black lives matter', 'slavery', 'racism', 'protests',
                  'protesters', 'racist')
     covid_words = ('coronavirus', 'covid-19', 'pandemic', 'covid')
-    stocks = ['stocks', 'stock market']
-    trump_words = ('trump')
 
     foxnews = ('foxnews.csv', 'info', 'https://www.foxnews.com/')
     nypost = ('nypost.csv', 'headline-container', 'https://nypost.com/')
@@ -19,7 +16,7 @@ class WebScraper:
     newsmax = ('newsmax.csv', 'nmLeftColumn', 'https://www.newsmax.com/')
     wtimes = ('wtimes.csv', 'contained', 'https://www.washingtontimes.com/')
     npr = ('npr.csv', 'story-text', 'https://www.npr.org/')
-    usatoday = ('usatoday.csv', 'gnt_cw', 'https://www.usatoday.com/')
+    usatoday = ('usatoday.csv', 'gnt_m_th_a', 'https://www.usatoday.com/')
     abc = ('abc.csv', 'main-container', 'https://abcnews.go.com/')
     nbc = ('nbc.csv', 'layout-container zone-a-margin lead-type--threeUp', 'https://www.nbcnews.com/')
     mjones = ('mjones.csv', 'grid', 'https://www.motherjones.com//')
@@ -38,8 +35,7 @@ class WebScraper:
             bowl = soup.find_all(class_=class1)
         articles = [items.find_all('a') for items in bowl]
         articles2 = [a for i in articles for a in i]
-        my_file = open(file, 'w')
-        csv_file = csv.writer(my_file)
+        csv_file = []
         article_links = set({})
         for articles in articles2:
             if 'href' not in str(articles):
@@ -69,7 +65,9 @@ class WebScraper:
                 else:
                     article_links.add(new_articles)
                     article_links.add(articles.text)
-                    csv_file.writerow([articles.text.strip(), new_articles])
+                    csv_file.append([articles.text.strip(), new_articles])
             else:
                 continue
-        my_file.close()
+
+        return csv_file
+

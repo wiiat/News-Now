@@ -21,7 +21,7 @@ import kivy.modules
 import time
 
 kivy.require("1.11.0")
-Window.clearcolor = (.54, .84, .89, 1)
+Window.clearcolor = (.68, .87, .94, 1)
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 
@@ -195,6 +195,7 @@ class Sites(Screen):
 
     buttons = (back_button, menu_button)
     Label.count = 0
+    no_art = Label(text="[b]No Articles[/b]", markup=True, font_size=80)
 
     def on_pre_enter(self, *args):
         self.news_articles.clear_widgets()
@@ -239,19 +240,22 @@ class Sites(Screen):
 
     def text_collision(self):
         labels = [i for i in self.news_articles.children]
-        for label in labels:
-            font_instance = 35
-            if label.collide_point(*label.to_widget(*Window.mouse_pos)):
-                animation = Animation(font_size=font_instance + 2, s=1 / 60, duration=.06)
-                label.color = (.96, .60, .61, 1)
-                if label.count == 0:
-                    animation.start(label)
-                    label.count += 1
-            else:
-                label.count = 0
-                Animation.cancel_all(label)
-                label.color = (1, 1, 1, 1)
-                label.font_size = font_instance
+        if self.no_art in labels:
+            pass
+        else:
+            for label in labels:
+                font_instance = 35
+                if label.collide_point(*label.to_widget(*Window.mouse_pos)):
+                    animation = Animation(font_size=font_instance + 2, s=1 / 60, duration=.06)
+                    label.color = (.96, .60, .61, 1)
+                    if label.count == 0:
+                        animation.start(label)
+                        label.count += 1
+                else:
+                    label.count = 0
+                    Animation.cancel_all(label)
+                    label.color = (1, 1, 1, 1)
+                    label.font_size = font_instance
 
     def loading(self):
         self.add_widget(Label(text="[b]Loading...[/b]", markup=True, font_size=60))
@@ -261,17 +265,19 @@ class Sites(Screen):
         self.remove_widget(self.children[0])
         titles = self.csv_load()[0]
         links = self.csv_load()[1]
-        for lnk, items in zip(links, titles):
-            if len(items) > 90:
-                clipped = items[:90] + "..."
-            else:
-                clipped = items
-            article_widget = Label(text="[ref={}][b]{}[/b][/ref]".format(lnk, clipped), markup=True,
-                                   font_size=35, text_size=(580, None), halign='left', size_hint_y=None,
-                                   shorten_from='right')
-            article_widget.on_ref_press = self.openlink
-            self.news_articles.add_widget(article_widget)
-            #self.article_list.append(article_widget)
+        if len(titles) == 0:
+            self.news_articles.add_widget(self.no_art)
+        else:
+            for lnk, items in zip(links, titles):
+                if len(items) > 90:
+                    clipped = items[:90] + "..."
+                else:
+                    clipped = items
+                article_widget = Label(text="[ref={}][b]{}[/b][/ref]".format(lnk, clipped), markup=True,
+                                       font_size=35, text_size=(580, None), halign='left', size_hint_y=None,
+                                       shorten_from='right')
+                article_widget.on_ref_press = self.openlink
+                self.news_articles.add_widget(article_widget)
 
     def openlink(self, instance):
         webbrowser.open(instance, new=2)
@@ -280,14 +286,12 @@ class Sites(Screen):
         webscrape = WebScraper()
         topic = TopicSelectionPage()
         topic_dict = {'covid': webscrape.covid_words, 'blm': webscrape.blm_words}
-        webscrape.keyword_lite(topic_dict[topic.count], *self.webscrape_site)
+        csv_data = webscrape.keyword_lite(topic_dict[topic.count], *self.webscrape_site)
         titles = []
         links = []
-        with open(self.site_csv, 'r') as f:
-            csv_data = list(csv.reader(f))
-            for num in range(len(csv_data)):
-                titles.append(csv_data[num][0])
-                links.append(csv_data[num][1])
+        for num in range(len(csv_data)):
+            titles.append(csv_data[num][0])
+            links.append(csv_data[num][1])
         articles = (titles, links)
 
         return articles
