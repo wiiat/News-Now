@@ -1,8 +1,8 @@
 <h2>About</h2>
 <p>Are you tired of having to look up all your favorite news sites just to find out their take on the latest news?</p>
-<p>Do you wish you could have just one place that had all the different news outlets you subscribe to along with </p>
-<p>all the current hot topics? Well if your answer was yes then this might just be the app for you! News Now is a </p>
-<p>software that makes it easier to access all your favorite news sites.</p>
+<p>Do you wish you could have only one place that had all the different news outlets and hot topics you subscribe to?</p> 
+<p>Well this might just be the app for you! News Now is a software that makes it easier to access all your favorite </p>
+<p>news sites, simplifying your daily routine</p>
 
 <h2>Platforms</h2>
 <p>- MacOSX</p>
