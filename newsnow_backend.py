@@ -16,7 +16,7 @@ class WebScraper:
     newsmax = ('newsmax.csv', 'nmLeftColumn', 'https://www.newsmax.com/')
     wtimes = ('wtimes.csv', 'contained', 'https://www.washingtontimes.com/')
     npr = ('npr.csv', 'story-text', 'https://www.npr.org/')
-    usatoday = ('usatoday.csv', 'gnt_m_th_a', 'https://www.usatoday.com/')
+    usatoday = ('usatoday.csv', 'gnt_cw', 'https://www.usatoday.com/')
     abc = ('abc.csv', 'main-container', 'https://abcnews.go.com/')
     nbc = ('nbc.csv', 'layout-container zone-a-margin lead-type--threeUp', 'https://www.nbcnews.com/')
     mjones = ('mjones.csv', 'grid', 'https://www.motherjones.com//')
@@ -25,7 +25,7 @@ class WebScraper:
 
     def keyword_lite(self, word_list, file, class1, link):
         special = ('dailymail.csv', 'bbc.csv', 'nytimes.csv', 'newsmax.csv',
-                   'wtimes.csv', 'abc.csv')
+                   'wtimes.csv', 'abc.csv', 'usatoday.csv')
         special2 = ('newsmax.csv', 'wtimes.csv', 'abc.csv')
         local_link = requests.get(link).text
         soup = BeautifulSoup(local_link, 'lxml')
@@ -55,7 +55,7 @@ class WebScraper:
                     new_articles = 'https' + articles['href'][4:]
             else:
                 continue
-            if any(words in articles.text.lower() for words in word_list):
+            if any(words.lower() in articles.text.lower() for words in word_list):
                 if len(articles.text) < 3:
                     continue
                 elif new_articles in article_links or articles.text in article_links:
@@ -71,3 +71,16 @@ class WebScraper:
 
         return csv_file
 
+    def update_check(self):
+        version = "v1.1.0"
+        releases = requests.get("https://github.com/wiiat/News-Now/releases").text
+        soup = BeautifulSoup(releases, 'lxml')
+        recent_version = soup.find(class_='f1 flex-auto min-width-0 text-normal').text
+        if recent_version.strip() == version:
+            return True
+        else:
+            return False
+
+if __name__ == "__main__":
+    scraper = WebScraper()
+    scraper.update_check()

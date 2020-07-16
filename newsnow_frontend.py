@@ -18,7 +18,12 @@ import csv
 import webbrowser
 from kivy.uix.scrollview import ScrollView
 import kivy.modules
-import time
+from kivy.graphics.vertex_instructions import Rectangle
+from kivy.uix.textinput import TextInput
+from kivy.graphics import Color
+from kivy.uix.popup import Popup
+import requests
+from requests.exceptions import ConnectionError
 
 kivy.require("1.11.0")
 Window.clearcolor = (.68, .87, .94, 1)
@@ -47,6 +52,13 @@ class TopicSelectionPage(Screen):
         self.covid_button = Button(background_color=(0, 0, 0, 0), text="[b]Coronavirus[/b]", font_size=57)
         self.button_keys = {self.blm_button: 'blm', self.covid_button: 'covid'}
 
+        self.search_grid = GridLayout(cols=2, cols_minimum={1: 400}, rows_minimum={0: 50}, spacing=[80, 0],
+                                      pos=(200, 50))
+        self.search_bar = TextInput(multiline=False, padding=[15, 10], font_size=25, background_normal="",
+                                    background_active="", cursor_color=(.96, .60, .61, 1), cursor_width='3sp',
+                                    foreground_color=(.96, .60, .61, 1))
+        self.search_text = Label(text="[b]Search:[/b]", font_size=35, markup=True)
+
         Clock.schedule_once(self.update_once, 0)
         Clock.schedule_interval(self.update, 1 / 60)
 
@@ -58,10 +70,40 @@ class TopicSelectionPage(Screen):
 
     count = ""
 
+    def on_pre_enter(self, *args):
+        self.search_bar.text = ""
+
+    def on_enter(self, *args):
+        Clock.schedule_once(self.update_alert, 0)
+
+    def update_alert(self, dt):
+        scraper = WebScraper()
+        if len(self.children) > 1:
+            self.remove_widget(self.children[0])
+        else:
+            pass
+        while True:
+            try:
+                if scraper.update_check() is True:
+                    pass
+                else:
+                    self.add_widget(Label(text="[b]An update is available![/b]", font_size=30, markup=True,
+                                          pos=(0, -250), outline_width=2, outline_color=(1, 1, 1, 1),
+                                          color=(.96, .60, .61, 1)))
+                break
+            except requests.exceptions.ConnectionError:
+                self.add_widget(Label(text="[b]No internet connection detected!", font_size=30, markup=True,
+                                      pos=(0, -250), outline_width=2, outline_color=(1, 1, 1, 1), color=(.96, .60, .61,
+                                                                                                         1)))
+                break
+
     @classmethod
     def count_change(cls, a):
         button_keys = {'[b]Black Lives Matter[/b]': 'blm', "[b]Coronavirus[/b]": 'covid'}
-        cls.count = cls.button_keys = button_keys[a.text]
+        if a.text in button_keys.keys():
+            cls.count = cls.button_keys = button_keys[a.text]
+        else:
+            cls.count = a.text
 
     def pressed(self, button):
         self.count_change(button)
@@ -85,6 +127,16 @@ class TopicSelectionPage(Screen):
 
     def update_once(self, dt):
         count = 0
+
+        with self.search_text.canvas.before:
+            Color(.96, .60, .61, 1)
+            Rectangle(size=(197, 50), pos=(120, 100))
+
+        self.base_widget.add_widget(self.search_grid)
+        self.search_grid.add_widget(self.search_text)
+        self.search_grid.add_widget(self.search_bar)
+        self.search_bar.bind(on_text_validate=self.pressed)
+
         for bttn in self.button_keys.keys():
             bttn.size = bttn.texture_size
             bttn.pos = (self.base_widget.center_x - (bttn.width / 2), 280 - (85 * count))
@@ -195,7 +247,7 @@ class Sites(Screen):
 
     buttons = (back_button, menu_button)
     Label.count = 0
-    no_art = Label(text="[b]No Articles[/b]", markup=True, font_size=80)
+    no_art = Label(text="[b]No Articles :/[/b]", markup=True, font_size=80)
 
     def on_pre_enter(self, *args):
         self.news_articles.clear_widgets()
@@ -207,22 +259,38 @@ class Sites(Screen):
         font_instance = 26.7
         color1 = (1, 1, 1, 1)
         color2 = (.96, .60, .61, 1)
-        sidebar = [self.menu_button, self.refresh_button, self.next_button, self.previous_button]
-        buttons = [self.back_button, self.menu_button, self.refresh_button, self.next_button, self.previous_button]
+        button_count = 0
+        sidebar = [self.menu_button, self.refresh_button]
+        buttons = [self.back_button, self.menu_button, self.refresh_button]
         if self.next is False:
-            buttons.remove(self.next_button)
+            sidebar.append(self.previous_button)
+            buttons.append(self.previous_button)
         elif self.prev is False:
-            buttons.remove(self.previous_button)
+            button_count = 1
+            sidebar.append(self.next_button)
+            buttons.append(self.next_button)
+        else:
+            control_list = [self.next_button, self.previous_button]
+            for i in control_list:
+                sidebar.append(i)
+                buttons.append(i)
+
         for button in buttons:
             if button in sidebar:
                 color1 = (.96, .60, .61, 1)
                 color2 = (1, 1, 1, 1)
-                if button == self.refresh_button:
-                    font_instance = 20
-                elif button == self.previous_button:
-                    font_instance = 18.5
+                if button_count == 0:
+                    if button == self.refresh_button:
+                        font_instance = 20
+                    elif button == self.previous_button:
+                        font_instance = 18.5
+                    else:
+                        font_instance = 24
                 else:
-                    font_instance = 24
+                    if button == self.refresh_button:
+                        font_instance = 20
+                    else:
+                        font_instance = 24
 
             if button.collide_point(*Window.mouse_pos):
                 animation = Animation(font_size=font_instance + 3, s=1 / 60, duration=.06)
@@ -266,7 +334,11 @@ class Sites(Screen):
         titles = self.csv_load()[0]
         links = self.csv_load()[1]
         if len(titles) == 0:
-            self.news_articles.add_widget(self.no_art)
+            if self.no_art.parent is None:
+                self.news_articles.add_widget(self.no_art)
+            else:
+                self.no_art.parent.remove_widget(self.no_art)
+                self.news_articles.add_widget(self.no_art)
         else:
             for lnk, items in zip(links, titles):
                 if len(items) > 90:
@@ -286,7 +358,10 @@ class Sites(Screen):
         webscrape = WebScraper()
         topic = TopicSelectionPage()
         topic_dict = {'covid': webscrape.covid_words, 'blm': webscrape.blm_words}
-        csv_data = webscrape.keyword_lite(topic_dict[topic.count], *self.webscrape_site)
+        if topic.count in topic_dict.keys():
+            csv_data = webscrape.keyword_lite(topic_dict[topic.count], *self.webscrape_site)
+        else:
+            csv_data = webscrape.keyword_lite(topic.count.split(" "), *self.webscrape_site)
         titles = []
         links = []
         for num in range(len(csv_data)):
@@ -301,111 +376,207 @@ class Sites(Screen):
         self.text_collision()
 
 
-class FoxNews(Sites):
+class SiteLayout(Sites):
+    site_layout = ObjectProperty(None)
+
+
+class FoxNews(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'foxnews'
         self.webscrape_site = (WebScraper.foxnews[0], WebScraper.foxnews[1], WebScraper.foxnews[2])
         self.site_csv = WebScraper.foxnews[0]
         self.prev = False
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Fox News[/b]"
+        self.site_layout.children[0].remove_widget(self.site_layout.children[0].children[1])
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 265), size=(120, 190)))
 
 
-class NyPost(Sites):
+class NyPost(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'nypost'
         self.webscrape_site = (WebScraper.nypost[0], WebScraper.nypost[1], WebScraper.nypost[2])
         self.site_csv = WebScraper.nypost[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]New York Post[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class DailyMail(Sites):
+class DailyMail(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'dailymail'
         self.webscrape_site = (WebScraper.dailymail[0], WebScraper.dailymail[1], WebScraper.dailymail[2])
         self.site_csv = WebScraper.dailymail[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Daily Mail[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class Newsmax(Sites):
+class Newsmax(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'newsmax'
         self.webscrape_site = (WebScraper.newsmax[0], WebScraper.newsmax[1], WebScraper.newsmax[2])
         self.site_csv = WebScraper.newsmax[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Newsmax[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class Reason(Sites):
+class Reason(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'reason'
         self.webscrape_site = (WebScraper.reason[0], WebScraper.reason[1], WebScraper.reason[2])
         self.site_csv = WebScraper.reason[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Reason[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class WashingtonTimes(Sites):
+class WashingtonTimes(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'wtimes'
         self.webscrape_site = (WebScraper.wtimes[0], WebScraper.wtimes[1], WebScraper.wtimes[2])
         self.site_csv = WebScraper.wtimes[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Washington Times[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class BBC(Sites):
+class BBC(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'bbc'
         self.webscrape_site = (WebScraper.bbc[0], WebScraper.bbc[1], WebScraper.bbc[2])
         self.site_csv = WebScraper.bbc[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]BBC News[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class NPR(Sites):
+class NPR(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'npr'
         self.webscrape_site = (WebScraper.npr[0], WebScraper.npr[1], WebScraper.npr[2])
         self.site_csv = WebScraper.npr[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]NPR News[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class USAToday(Sites):
+class USAToday(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'usatoday'
         self.webscrape_site = (WebScraper.usatoday[0], WebScraper.usatoday[1], WebScraper.usatoday[2])
         self.site_csv = WebScraper.usatoday[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]USA Today[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class ABC(Sites):
+class ABC(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'abc'
         self.webscrape_site = (WebScraper.abc[0], WebScraper.abc[1], WebScraper.abc[2])
         self.site_csv = WebScraper.abc[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]ABC News[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class NBC(Sites):
+class NBC(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'nbc'
         self.webscrape_site = (WebScraper.nbc[0], WebScraper.nbc[1], WebScraper.nbc[2])
         self.site_csv = WebScraper.nbc[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]NBC News[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class NyTimes(Sites):
+class NyTimes(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'nytimes'
         self.webscrape_site = (WebScraper.nytimes[0], WebScraper.nytimes[1], WebScraper.nytimes[2])
         self.site_csv = WebScraper.nytimes[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]New York Times[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class MotherJones(Sites):
+class MotherJones(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'mjones'
         self.webscrape_site = (WebScraper.mjones[0], WebScraper.mjones[1], WebScraper.mjones[2])
         self.site_csv = WebScraper.mjones[0]
         self.next = False
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Mother Jones[/b]"
+        self.site_layout.children[0].remove_widget(self.site_layout.children[0].children[2])
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class MSNBC(Sites):
+class MSNBC(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'msnbc'
         self.webscrape_site = (WebScraper.msnbc[0], WebScraper.msnbc[1], WebScraper.msnbc[2])
         self.site_csv = WebScraper.msnbc[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]MSNBC News[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
-class Vox(Sites):
+class Vox(SiteLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.name = 'vox'
         self.webscrape_site = (WebScraper.vox[0], WebScraper.vox[1], WebScraper.vox[2])
         self.site_csv = WebScraper.vox[0]
+        Clock.schedule_once(self.layout_override, 0)
+
+    def layout_override(self, dt):
+        self.site_layout.children[0].children[5].text = "[b]Vox News[/b]"
+        self.site_layout.children[0].canvas.before.add(Rectangle(pos=(38, 205), size=(120, 250)))
 
 
 class NewsNowApp(App):
