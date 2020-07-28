@@ -581,7 +581,7 @@ class Vox(SiteLayout):
 
 class NewsNowApp(App):
     def build(self):
-        self.icon = 'NN-icon.icns'
+        self.icon = 'NN-icon.ico'
         kv_file = Builder.load_file("newsnowkivy.kv")
 
         return kv_file
