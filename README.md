@@ -6,6 +6,7 @@
 
 <h2>Platforms</h2>
 <p>- MacOSX</p>
+<p>- Windows (download from website)</p>
 
 <h2>Setup</h2>
 <p>1. Click either of the zipped "Source Code" files under the "Assets" section below to download the software.</p>
